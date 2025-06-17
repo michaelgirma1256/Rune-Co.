@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rune Co. | Resonance by Design.</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base styles and custom properties */
+        :root {
+            --brand-blue: #00BFFF; /* Deep Sky Blue */
+            --brand-dark: #0A0A0A; /* Near Black */
+            --brand-light: #E0E0E0; /* Light Grey */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--brand-dark);
+            color: var(--brand-light);
+            overflow-x: hidden;
+        }
+
+        /* Glow effect for text and borders */
+        .glow {
+            text-shadow: 0 0 8px var(--brand-blue), 0 0 20px rgba(0, 191, 255, 0.3);
+        }
+        
+        .border-glow {
+            border-color: var(--brand-blue);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+        }
+
+        /* SVG Line Drawing Animation */
+        .path-draw {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: draw 8s ease-in-out forwards;
+        }
+        
+        .path-draw-slow {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: draw 12s ease-in-out forwards 1s;
+        }
+
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        /* Subtle fade-in animations for content */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        /* Loading Spinner */
+        .loader {
+            border: 2px solid rgba(0, 191, 255, 0.2);
+            border-left-color: var(--brand-blue);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Navbar styles */
+        .nav-link {
+            position: relative;
+            color: #A0AEC0; /* text-slate-400 */
+        }
+        .nav-link:hover {
+            color: var(--brand-light);
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--brand-blue);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+    
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-brand-dark/80 backdrop-blur-md border-b border-gray-900">
+        <div class="max-w-6xl mx-auto px-6 md:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <!-- <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg> -->
+                    <img src="images/logo.png" alt="Rune Co. Logo" class="w-8 h-8">
+                    <span class="text-xl font-bold text-white">Rune Co.</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services-section" class="nav-link transition-colors">Craft</a>
+                    <a href="#gemini-feature" class="nav-link transition-colors">Vision</a>
+                    <a href="#contact-section" class="nav-link transition-colors">Contact</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-slate-400 hover:text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#services-section" class="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-gray-800">Craft</a>
+                <a href="#gemini-feature" class="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-gray-800">Vision</a>
+                <a href="#contact-section" class="block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-gray-800">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden">
+        <!-- Background SVG Animation -->
+        <div class="absolute inset-0 w-full h-full z-0">
+            <svg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" class="opacity-30">
+                <defs>
+                    <filter id="glow-filter">
+                        <feGaussianBlur stdDeviation="3.5" result="coloredBlur"></feGaussianBlur>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"></feMergeNode>
+                            <feMergeNode in="SourceGraphic"></feMergeNode>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <path class="path-draw" d="M -100 20 L 400 350 L 250 800 L 600 500 L 800 -100" stroke="var(--brand-blue)" stroke-width="0.5" fill="none" style="filter: url(#glow-filter);"></path>
+                <path class="path-draw-slow" d="M 100% 10 L 60% 300 L 75% 700 L 40% 900 L 20% 50%" stroke="var(--brand-blue)" stroke-width="0.5" fill="none" style="filter: url(#glow-filter);"></path>
+                 <path class="path-draw" d="M 50% 110% L 50% -10% M -10% 50% L 110% 50%" stroke="var(--brand-blue)" stroke-width="0.2" fill="none" style="filter: url(#glow-filter);"></path>
+            </svg>
+        </div>
+        
+        <div class="relative z-10 text-center px-4" style="animation: fadeIn 2s ease-out forwards;">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white">
+                Rune Co.
+            </h1>
+            <p class="mt-4 text-lg md:text-2xl font-light text-slate-300 glow">
+                Resonance by Design.
+            </p>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10" style="animation: fadeIn 3s ease-out forwards;">
+             <svg class="w-6 h-6 text-slate-500 animate-bounce" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main class="w-full max-w-6xl mx-auto px-6 md:px-8 py-20 md:py-32 space-y-24 md:space-y-40">
+
+        <section class="fade-in-section text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-light tracking-tight text-white mb-6">
+                We don't just build brands; <span class="glow">we inscribe meaning.</span>
+            </h2>
+            <p class="text-lg text-slate-400 leading-relaxed">
+                At Rune Co., we decode the essence of your vision and render it into a digital experience that resonates with purpose and power. We move beyond fleeting trends to build foundational identities that last.
+            </p>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services-section" class="fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-sm font-bold uppercase tracking-widest text-blue-400">Our Craft</h2>
+                <p class="text-3xl md:text-4xl font-light text-white mt-2">What We Forge</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-gray-900/40 p-8 rounded-lg border border-gray-800 hover:border-glow transition-all duration-300">
+                    <h3 class="text-xl font-bold text-white mb-3">Narrative Weaving</h3>
+                    <p class="text-slate-400">
+                        Crafting compelling, continuous stories across social platforms that cultivate community and build a lasting legacy.
+                    </p>
+                </div>
+                <div class="bg-gray-900/40 p-8 rounded-lg border border-gray-800 hover:border-glow transition-all duration-300">
+                    <h3 class="text-xl font-bold text-white mb-3">Visual Sigils</h3>
+                    <p class="text-slate-400">
+                        Designing powerful, memorable visual identities—from logos to brand systems—that act as a unique mark of your purpose.
+                    </p>
+                </div>
+                <div class="bg-gray-900/40 p-8 rounded-lg border border-gray-800 hover:border-glow transition-all duration-300">
+                    <h3 class="text-xl font-bold text-white mb-3">Digital Architecture</h3>
+                    <p class="text-slate-400">
+                        Building foundational, immersive websites and applications that are both structurally sound and experientially profound.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Gemini API Feature Section -->
+        <section id="gemini-feature" class="fade-in-section text-center py-20 bg-gray-900/20 rounded-lg border border-gray-800">
+            <h2 class="text-3xl md:text-4xl font-light text-white mb-4">Inscribe Your Vision</h2>
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">
+                Unearth the core of your brand. Enter a few words about your idea, and let our brand sage reveal its potential.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-xl mx-auto">
+                <input type="text" id="vision-input" placeholder="e.g., Artisan coffee, local community, morning ritual" class="w-full bg-gray-900/50 border border-gray-700 rounded-md py-3 px-4 text-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300">
+                <button id="inscribe-button" class="w-full sm:w-auto flex justify-center items-center bg-blue-500/10 text-blue-300 font-bold py-3 px-8 rounded-lg border border-blue-500/50 hover:bg-blue-500/20 hover:text-white hover:border-blue-400 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,191,255,0.5)]">
+                    <span id="button-text">✨ Inscribe</span>
+                    <div id="button-loader" class="loader hidden"></div>
+                </button>
+            </div>
+            
+            <div id="oracle-results" class="hidden mt-12 max-w-3xl mx-auto text-left p-8 bg-black/30 border border-gray-800 rounded-lg"></div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="contact-section" class="fade-in-section text-center py-20">
+            <h2 class="text-3xl md:text-4xl font-light text-white mb-4">Ready to inscribe your legacy?</h2>
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">
+                Engage with our brand sage to explore your vision, or reach out directly to <a href="mailto:contact@runeco.com" class="text-blue-400 hover:text-blue-300 glow transition-all">contact@runeco.com</a>. We partner with visionaries who are ready to make their mark.
+            </p>
+            <a href="#gemini-feature" 
+               class="inline-block bg-blue-500/10 text-blue-300 font-bold py-3 px-8 rounded-lg border border-blue-500/50 
+                      hover:bg-blue-500/20 hover:text-white hover:border-blue-400 transition-all duration-300
+                      hover:shadow-[0_0_20px_rgba(0,191,255,0.5)]">
+                Begin the Dialogue
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-900 py-8">
+        <div class="max-w-6xl mx-auto px-6 md:px-8 text-center text-slate-600">
+            <p>&copy; <span id="current-year"></span> Rune Co. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // --- Navigation Logic ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // --- Gemini API Feature Logic ---
+        const inscribeButton = document.getElementById('inscribe-button');
+        const visionInput = document.getElementById('vision-input');
+        const resultsContainer = document.getElementById('oracle-results');
+        const buttonText = document.getElementById('button-text');
+        const buttonLoader = document.getElementById('button-loader');
+
+        inscribeButton.addEventListener('click', async () => {
+            const userInput = visionInput.value.trim();
+            if (!userInput) {
+                resultsContainer.innerHTML = `<p class="text-red-400">Please provide a vision to inscribe.</p>`;
+                resultsContainer.classList.remove('hidden');
+                return;
+            }
+
+            buttonText.classList.add('hidden');
+            buttonLoader.classList.remove('hidden');
+            inscribeButton.disabled = true;
+            resultsContainer.classList.add('hidden');
+
+            try {
+                const prompt = `You are a brand sage and strategist for a high-end creative agency called "Rune Co." Your tone is insightful, evocative, and assured. A potential client has provided the following business concept: "${userInput}". 
+                
+                Your task is to analyze this concept and generate a foundational brand identity. Provide a brand essence, a brand slogan, and three core brand values with brief, evocative descriptions for each. The output should be inspiring and reflect a deep understanding of brand narrative, fitting the premium, mysterious, and modern aesthetic of Rune Co.`;
+                
+                const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                const payload = {
+                    contents: chatHistory,
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                essence: { type: "STRING", description: "A short, evocative brand essence statement." },
+                                slogan: { type: "STRING", description: "A powerful and memorable slogan." },
+                                values: {
+                                    type: "ARRAY",
+                                    items: {
+                                        type: "OBJECT",
+                                        properties: {
+                                            value: { "type": "STRING" },
+                                            description: { "type": "STRING" }
+                                        }
+                                    }
+                                }
+                            },
+                            required: ["essence", "slogan", "values"]
+                        }
+                    }
+                };
+
+                const apiKey = ""; // API key will be provided by the environment
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts.length > 0) {
+                    const data = JSON.parse(result.candidates[0].content.parts[0].text);
+                    let htmlOutput = `
+                        <div class="mb-6">
+                            <h4 class="text-sm font-bold uppercase tracking-widest text-blue-400 mb-2">Brand Essence</h4>
+                            <p class="text-lg text-slate-300">${data.essence}</p>
+                        </div>
+                        <div class="mb-6">
+                            <h4 class="text-sm font-bold uppercase tracking-widest text-blue-400 mb-2">Brand Slogan</h4>
+                            <p class="text-lg text-slate-300">${data.slogan}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold uppercase tracking-widest text-blue-400 mb-3">Core Values</h4>
+                            <ul class="space-y-3">
+                    `;
+                    data.values.forEach(item => {
+                        htmlOutput += `<li><strong class="text-slate-200">${item.value}:</strong> <span class="text-slate-400">${item.description}</span></li>`;
+                    });
+                    htmlOutput += `</ul></div>`;
+                    resultsContainer.innerHTML = htmlOutput;
+                } else {
+                    throw new Error("Invalid response structure from API.");
+                }
+
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                resultsContainer.innerHTML = `<p class="text-red-400">An error occurred while inscribing your vision. Please try again later.</p>`;
+            } finally {
+                buttonText.classList.remove('hidden');
+                buttonLoader.classList.add('hidden');
+                inscribeButton.disabled = false;
+                resultsContainer.classList.remove('hidden');
+                resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+
+        // --- Intersection Observer for fade-in sections ---
+        const sections = document.querySelectorAll('.fade-in-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-section-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach((section) => { observer.observe(section); });
+
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = `.fade-in-section-visible { opacity: 1; transform: translateY(0); }`;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>
